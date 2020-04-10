@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+
 /**
  * Class for testing your implementation of the HashTable class.
  */
@@ -50,11 +51,105 @@ public class HashTableTester {
         for (Tweet t: tweets) {
             tweetTable.put(t.getDateAndTime(), t);
         }
+
+        //================================================================================================
+        /*
+        //EXTRA TESTS MOFO//
+        
+        //I ADDED SOME TEST CASES SO MAKE SURE TO HAVE 26 in the table even tho there may be more tweets!
+        //PASSED
+        System.out.println("** My shitter tester 1: " + tweets.size() + " = " + tweetTable.size());
+        
+        //ADD the extra test tweets
+        //PASSED
+        tweets.add(new Tweet("USER_86c542b8","2010-03-04 02:52:06","LOL BAITED"));
+        Tweet testTweet997 = tweetTable.put(tweets.get(26).getDateAndTime(), tweets.get(26));
+        
+        //Passed
+        System.out.println("Should be the old tweet: so not 'LOL BAITED' : " + testTweet997);
+        
+        //test passing in a null value
+        //Passed
+        System.out.println("** My shitter tester 4: " + (tweetTable.put(tweets.get(0).getDateAndTime(), null)== null));
+
+        //PASSED
+        Tweet testTweet999 = tweetTable.get("2010-03-03 02:06:01");
+        System.out.println("** SHITTY TEST 2: " + testTweet999 + " = @USER_561fe280: Nourish your spirit with your own achievement.");
+        
+        //Test same key
+        //PASSED
+        Tweet testTweet998 = tweetTable.get("2010-03-04 02:52:06");
+        System.out.println("** SHITTY TEST 3: " + testTweet998 + " = LOL BAITED");
+        
+        //TEST NO KEY
+        //PASSED
+        Tweet testTweet996 = tweetTable.get("1999-03-04 02:52:06");
+        System.out.println("** SHITTY TEST 5: " + (testTweet996==null));
+        
+        //TEST REMOVE 
+        //PASSED
+        Tweet testTweet995 = tweetTable.remove("2010-03-04 02:52:06");
+        System.out.println("** SHITTY TEST 6: " + (testTweet995));
+        
+        //TEST RETRIEVE AFTER REMOVE
+        //PASSED
+        Tweet testTweet993 = tweetTable.get("2010-03-04 02:52:06");
+        System.out.println("** SHITTY TEST 8: " + (testTweet993));
+        
+        //PASSED BEFORE IMPLEMENTING REHASHING
+        //NORMAL TO NOT BE 25
+        System.out.println("Should be 25 tweets "+ tweetTable.size() + " - "+  (tweetTable.size()==25) );
+        
+        //TEST REMOVE WITH INVALID KEY
+        //PASSED
+        Tweet testTweet994 = tweetTable.remove("1999-03-04 02:52:06");
+        System.out.println("** SHITTY TEST 7: " + (testTweet994==null));
+        
+        //TEST Keys
+        //PASSED
+        System.out.println("** SHITTY TEST 8 (CHECKING KEYS): " + tweetTable.keys().size() + "\n" + tweetTable.keys());
+        
+        //TESTING EMPTY TABLE
+        //PASSED
+        //tweetTable = new MyHashTable<String, Tweet>(7);
+        //System.out.println("** SHITTY TEST 8 (CHECKING KEYS): " + tweetTable.keys().size() + "\n" + tweetTable.keys());
+        
+        //TEST Values
+        //PASSED
+        System.out.println("** SHITTY TEST 9 (CHECKING VALUES): " + tweetTable.values().size() + "\n" + tweetTable.values());
+        
+        //TESTING EMPTY TABLE
+        //PASSED
+        //tweetTable = new MyHashTable<String, Tweet>(7);
+        //System.out.println("** SHITTY TEST 9 (CHECKING VALUES): " + tweetTable.values().size() + "\n" + tweetTable.values());
+        
+        //IF POSSIBLE CHECK FOR DUPLICATES
+        
+        //Test the iterator
+        //PASSED
+        System.out.println("** SOME TEST THAT IS !NOT WORKING");
+        for(HashPair<String,Tweet> pair: tweetTable) {
+        	System.out.println("Key: " + pair.getKey() + " - Value: " + pair.getValue());
+        }
+        
+        //TEST FASTSORT
+        
+        //TEST REHASH
+        int oldSizeXTRA = tweetTable.numBuckets();
+        //tweetTable.rehash();
+        int newSizeXTRA = tweetTable.numBuckets();
+        
+        System.out.println("REHASH TEST: " + newSizeXTRA + " = 2 X " + oldSizeXTRA + " ; " + (newSizeXTRA==2*oldSizeXTRA) );
+        
+        System.out.println("\n\n");
+        //EXTRA TESTS MOFO//
+        */
+        //================================================================================================
         
         System.out.println("New MyHashtable created.....");
         System.out.println("Number of tweets in the table: " + tweetTable.size());
         System.out.println("Number of buckets in the table: " + tweetTable.numBuckets());
-        //System.out.println(tweetTable);
+        System.out.println(tweetTable.getBuckets());
         
         System.out.println("\n---------------\nTesting get:\n---------------\n");
         // Try to retrieve a tweet
@@ -64,7 +159,6 @@ public class HashTableTester {
         if (testTweet0 == null || !testTweet0.getAuthor().equals("USER_989b85bb") || !testTweet0.getMessage().equals("I can be MADE into a need.")) {
             errors.append("Failed to retrieve tweet from '2010-03-04 15:34:47'.\n");
         }   
-        
         
         System.out.println("\n---------------\nTesting rehash:\n---------------\n");
         //  rehashing changes the capacity of the table, but not the number of entries
@@ -97,8 +191,8 @@ public class HashTableTester {
             errors.append("Failed to remove tweet from '2010-03-03 06:55:17'.\n");
         }
         
-        
         //***************** Twitter Basic Checks *****************//
+        /*
         System.out.println("\n*********************\nTwitter Basic Checks");
         
         ArrayList<String> stopWords = new ArrayList<String>();        
@@ -123,9 +217,8 @@ public class HashTableTester {
         System.out.println(tweetsByDate.size() + " tweets posted on 2010-03-03 :");
         tweetsByDate.forEach(tweet -> System.out.println("\t" + tweet));
         
-        
+        */
         //   PUT MORE TESTS HERE.
-
         
         // Display the test results
         System.out.println("\n---------------\nTEST RESULTS:\n---------------\n");
