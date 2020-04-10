@@ -13,6 +13,7 @@ public class Twitter {
 		
 		//Create a HashTable for the twitter by using the date and time as a key
 		int numbuckets = (int) (tweets.size() / MAX_LOAD_FACTOR);
+		
 		twitterTable = new MyHashTable<String, Tweet>(numbuckets);
 
 		for (Tweet t : tweets) {

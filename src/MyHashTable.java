@@ -15,6 +15,7 @@ public class MyHashTable<K, V> implements Iterable<HashPair<K, V>> {
 	// constructor
 	public MyHashTable(int initialCapacity) {
 		// ADD YOUR CODE BELOW THIS
+		
 		// The capacity is the number of buckets in the hash table, and the initial
 		// capacity is simply the capacity at the
 		// time the hash table is created
@@ -26,6 +27,7 @@ public class MyHashTable<K, V> implements Iterable<HashPair<K, V>> {
 		for (int i = 0; i < initialCapacity; i++) {
 			buckets.add(new LinkedList<HashPair<K, V>>());
 		}
+		
 		// ADD YOUR CODE ABOVE THIS
 	}
 
@@ -62,9 +64,10 @@ public class MyHashTable<K, V> implements Iterable<HashPair<K, V>> {
 	 */
 	public V put(K key, V value) {
 		// ADD YOUR CODE BELOW HERE
-		if (value == null) {
+		if (value == null || key==null) {
 			return null;
 		}
+		
 
 		// Get the corresponding buckets
 		int hashValue = hashFunction(key);
@@ -88,8 +91,8 @@ public class MyHashTable<K, V> implements Iterable<HashPair<K, V>> {
 			bucket.add(new HashPair<K, V>(key, value));
 			numEntries++;
 		}
-		
-		//Check for rehashing
+
+		// Check for rehashing
 		if (((double) numEntries / (double) numBuckets) > MAX_LOAD_FACTOR) {
 			rehash();
 		}
@@ -153,7 +156,7 @@ public class MyHashTable<K, V> implements Iterable<HashPair<K, V>> {
 		// ADD YOUR CODE BELOW HERE
 		numBuckets = numBuckets * 2;
 		numEntries = 0;
-		
+
 		ArrayList<LinkedList<HashPair<K, V>>> newList = buckets;
 		buckets = new ArrayList<LinkedList<HashPair<K, V>>>();
 
@@ -249,10 +252,9 @@ public class MyHashTable<K, V> implements Iterable<HashPair<K, V>> {
 	 */
 
 	public static <K, V extends Comparable<V>> ArrayList<K> fastSort(MyHashTable<K, V> results) {
+
 		// ADD CODE BELOW HERE
-
 		return null;
-
 		// ADD CODE ABOVE HERE
 	}
 

@@ -53,9 +53,9 @@ public class HashTableTester {
         }
 
         //================================================================================================
-        /*
-        //EXTRA TESTS MOFO//
         
+        //EXTRA TESTS MOFO//
+        /*
         //I ADDED SOME TEST CASES SO MAKE SURE TO HAVE 26 in the table even tho there may be more tweets!
         //PASSED
         System.out.println("** My shitter tester 1: " + tweets.size() + " = " + tweetTable.size());
@@ -132,11 +132,17 @@ public class HashTableTester {
         	System.out.println("Key: " + pair.getKey() + " - Value: " + pair.getValue());
         }
         
+        //Test slowsort
+        //The slow sort uses the iterator, so this should work if the iterator works
+        //PASSED
+        System.out.println(MyHashTable.slowSort(tweetTable));
+        
+        
         //TEST FASTSORT
         
         //TEST REHASH
         int oldSizeXTRA = tweetTable.numBuckets();
-        //tweetTable.rehash();
+        tweetTable.rehash();
         int newSizeXTRA = tweetTable.numBuckets();
         
         System.out.println("REHASH TEST: " + newSizeXTRA + " = 2 X " + oldSizeXTRA + " ; " + (newSizeXTRA==2*oldSizeXTRA) );
@@ -150,7 +156,7 @@ public class HashTableTester {
         System.out.println("Number of tweets in the table: " + tweetTable.size());
         System.out.println("Number of buckets in the table: " + tweetTable.numBuckets());
         System.out.println(tweetTable.getBuckets());
-        
+
         System.out.println("\n---------------\nTesting get:\n---------------\n");
         // Try to retrieve a tweet
         StringBuffer errors = new StringBuffer();
