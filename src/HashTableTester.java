@@ -198,7 +198,7 @@ public class HashTableTester {
         }
         
         //***************** Twitter Basic Checks *****************//
-        /*
+        
         System.out.println("\n*********************\nTwitter Basic Checks");
         
         ArrayList<String> stopWords = new ArrayList<String>();        
@@ -223,7 +223,13 @@ public class HashTableTester {
         System.out.println(tweetsByDate.size() + " tweets posted on 2010-03-03 :");
         tweetsByDate.forEach(tweet -> System.out.println("\t" + tweet));
         
-        */
+        
+        //=======================MORE TESTS=============================
+        
+        System.out.println(t.trendingTopics());
+
+        //=======================MORE TESTS=============================
+        
         //   PUT MORE TESTS HERE.
         
         // Display the test results

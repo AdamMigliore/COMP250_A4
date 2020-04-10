@@ -3,24 +3,41 @@ import java.util.ArrayList;
 public class Twitter {
 
 	// ADD YOUR CODE BELOW HERE
-	private MyHashTable<String, Tweet> twitterTable;
+	private MyHashTable<String, Tweet> normalTable;
+	private MyHashTable<String, ArrayList<Tweet>> twitterTable;
+	private MyHashTable<String, ArrayList<Tweet>> authorTable;
+	private MyHashTable<String, String> stopWords;
 	private final double MAX_LOAD_FACTOR = 0.75;
 	// ADD CODE ABOVE HERE
 
 	// O(n+m) where n is the number of tweets, and m the number of stopWords
 	public Twitter(ArrayList<Tweet> tweets, ArrayList<String> stopWords) {
 		// ADD YOUR CODE BELOW HERE
-		
-		//Create a HashTable for the twitter by using the date and time as a key
+
 		int numbuckets = (int) (tweets.size() / MAX_LOAD_FACTOR);
 		
-		twitterTable = new MyHashTable<String, Tweet>(numbuckets);
-
-		for (Tweet t : tweets) {
-			twitterTable.put(t.getDateAndTime(), t);
+		int stopWordBuckets = (int) (stopWords.size() / MAX_LOAD_FACTOR);
+		
+		if(stopWords.size()==0) {
+			stopWordBuckets = 1;
 		}
 		
-		//Stop words can be in a hashTable as well not sure if useful
+
+		twitterTable = new MyHashTable<String, ArrayList<Tweet>>(numbuckets);
+		authorTable = new MyHashTable<String, ArrayList<Tweet>>(numbuckets);
+		normalTable = new MyHashTable<String, Tweet>(numbuckets);
+		
+		this.stopWords = new MyHashTable<String, String>(stopWordBuckets);
+
+		for (Tweet t : tweets) {
+
+			addTweet(t);
+		}
+
+		for (String word : stopWords) {
+			word = word.toLowerCase();
+			this.stopWords.put(word, word);
+		}
 
 		// ADD CODE ABOVE HERE
 	}
@@ -30,8 +47,27 @@ public class Twitter {
 	 */
 	public void addTweet(Tweet t) {
 		// ADD CODE BELOW HERE
+
+		String key = t.getDateAndTime().substring(0, 10);
+		ArrayList<Tweet> list = twitterTable.get(key);
+
+		if (list == null) {
+			list = new ArrayList<Tweet>();
+		}
+		list.add(t);
+		twitterTable.put(key, list);
+
+		String author = t.getAuthor();
+		ArrayList<Tweet> authorList = authorTable.get(author);
+
+		if (authorList == null) {
+			authorList = new ArrayList<Tweet>();
+		}
+		authorList.add(t);
+		authorTable.put(author, authorList);
 		
-		twitterTable.put(t.getDateAndTime(), t);
+		normalTable.put(t.getDateAndTime(), t);
+		
 		// ADD CODE ABOVE HERE
 	}
 
@@ -41,9 +77,19 @@ public class Twitter {
 	 */
 	public Tweet latestTweetByAuthor(String author) {
 		// ADD CODE BELOW HERE
-		
-		
-		return null;
+		if (authorTable.get(author) == null) {
+			return null;
+		}
+
+		Tweet latest = authorTable.get(author).get(0);
+
+		for (Tweet t : authorTable.get(author)) {
+			if (t.compareTo(latest) > 0) {
+				latest = t;
+			}
+		}
+
+		return latest;
 
 		// ADD CODE ABOVE HERE
 	}
@@ -55,8 +101,8 @@ public class Twitter {
 	 */
 	public ArrayList<Tweet> tweetsByDate(String date) {
 		// ADD CODE BELOW HERE
-		
-		return null;
+
+		return twitterTable.get(date);
 
 		// ADD CODE ABOVE HERE
 	}
@@ -69,9 +115,30 @@ public class Twitter {
 	 */
 	public ArrayList<String> trendingTopics() {
 		// ADD CODE BELOW HERE
+		MyHashTable<String, Integer> trendingTable = new MyHashTable<String, Integer>(1);
 
-		return null;
-
+		for (HashPair pair : normalTable) {
+			// 1- get the value
+			Tweet tweet = (Tweet) pair.getValue();
+			// 2- get the words
+			ArrayList<String> words = getWords(tweet.getMessage());
+			// 3- for each word check if its a stop word
+			for (String word : words) {
+				// if null - go on and increment
+				word = word.toLowerCase();
+				if (stopWords.get(word) == null) {
+					Integer value = trendingTable.get(word);
+					if (value == null) {
+						value = 1;
+					} else {
+						value++;
+					}
+					trendingTable.put(word, value);
+				}
+			}
+		}
+		System.out.println(trendingTable.get("a"));
+		return MyHashTable.slowSort(trendingTable);
 		// ADD CODE ABOVE HERE
 	}
 
