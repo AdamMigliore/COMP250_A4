@@ -226,8 +226,14 @@ public class HashTableTester {
         
         //=======================MORE TESTS=============================
         
+        //Test normal trending
         System.out.println(t.trendingTopics());
-
+        
+        //Test with block words
+        //PASSED
+        stopWords.add("a");
+        Twitter t2 = new Twitter(initTweetList(), stopWords);
+        System.out.println(t2.trendingTopics());
         //=======================MORE TESTS=============================
         
         //   PUT MORE TESTS HERE.
