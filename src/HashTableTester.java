@@ -232,9 +232,11 @@ public class HashTableTester {
         
         //Test with block words
         //PASSED
+        /*
         stopWords.add("a");
         Twitter t2 = new Twitter(initTweetList(), stopWords);
         System.out.println(t2.trendingTopics());
+        */
         //=======================MORE TESTS=============================
         
         //   PUT MORE TESTS HERE.

@@ -15,18 +15,17 @@ public class Twitter {
 		// ADD YOUR CODE BELOW HERE
 
 		int numbuckets = (int) (tweets.size() / MAX_LOAD_FACTOR);
-		
+
 		int stopWordBuckets = (int) (stopWords.size() / MAX_LOAD_FACTOR);
-		
-		if(stopWords.size()==0) {
+
+		if (stopWords.size() == 0) {
 			stopWordBuckets = 1;
 		}
-		
 
 		twitterTable = new MyHashTable<String, ArrayList<Tweet>>(numbuckets);
 		authorTable = new MyHashTable<String, ArrayList<Tweet>>(numbuckets);
 		normalTable = new MyHashTable<String, Tweet>(numbuckets);
-		
+
 		this.stopWords = new MyHashTable<String, String>(stopWordBuckets);
 
 		for (Tweet t : tweets) {
@@ -65,9 +64,9 @@ public class Twitter {
 		}
 		authorList.add(t);
 		authorTable.put(author, authorList);
-		
+
 		normalTable.put(t.getDateAndTime(), t);
-		
+
 		// ADD CODE ABOVE HERE
 	}
 
@@ -123,10 +122,12 @@ public class Twitter {
 			// 2- get the words
 			ArrayList<String> words = getWords(tweet.getMessage());
 			// 3- for each word check if its a stop word
+			ArrayList<String> alreadyChecked = new ArrayList<String>();
+			
 			for (String word : words) {
 				// if null - go on and increment
 				word = word.toLowerCase();
-				if (stopWords.get(word) == null) {
+				if (stopWords.get(word) == null && !alreadyChecked.contains(word)) {
 					Integer value = trendingTable.get(word);
 					if (value == null) {
 						value = 1;
@@ -134,6 +135,7 @@ public class Twitter {
 						value++;
 					}
 					trendingTable.put(word, value);
+					alreadyChecked.add(word);
 				}
 			}
 		}
