@@ -227,6 +227,7 @@ public class HashTableTester {
         //=======================MORE TESTS=============================
         
         //Test normal trending
+        //PASSED
         System.out.println(t.trendingTopics());
         
         //Test with block words

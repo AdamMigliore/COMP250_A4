@@ -137,7 +137,6 @@ public class Twitter {
 				}
 			}
 		}
-		System.out.println(trendingTable.get("that"));
 		return MyHashTable.slowSort(trendingTable);
 		// ADD CODE ABOVE HERE
 	}
