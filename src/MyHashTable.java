@@ -208,19 +208,15 @@ public class MyHashTable<K, V> implements Iterable<HashPair<K, V>> {
 	 */
 	public ArrayList<V> values() {
 		// ADD CODE BELOW HERE
-		ArrayList<V> myList = new ArrayList<V>();
+		MyHashTable<V, V> uniqueTable = new MyHashTable<V, V>(numBuckets);
 
 		for (int i = 0; i < buckets.size(); i++) {
-			
 			for (int j = 0; j < buckets.get(i).size(); j++) {
-				//if (!myList.contains(buckets.get(i).get(j).getValue())) {
-					myList.add(buckets.get(i).get(j).getValue());
-				//}
+					uniqueTable.put(buckets.get(i).get(j).getValue(), buckets.get(i).get(j).getValue());
 			}
-			
 		}
 
-		return myList;
+		return uniqueTable.keys();
 
 		// ADD CODE ABOVE HERE
 	}
