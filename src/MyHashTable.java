@@ -212,7 +212,7 @@ public class MyHashTable<K, V> implements Iterable<HashPair<K, V>> {
 
 		for (int i = 0; i < buckets.size(); i++) {
 			for (int j = 0; j < buckets.get(i).size(); j++) {
-					uniqueTable.put(buckets.get(i).get(j).getValue(), buckets.get(i).get(j).getValue());
+				uniqueTable.put(buckets.get(i).get(j).getValue(), buckets.get(i).get(j).getValue());
 			}
 		}
 
@@ -261,7 +261,11 @@ public class MyHashTable<K, V> implements Iterable<HashPair<K, V>> {
 		// ADD CODE BELOW HERE
 		ArrayList<HashPair<K, V>> resultsArray = new ArrayList<>();
 		ArrayList<K> out = new ArrayList<>();
-
+		
+		if(results.numEntries==0) {
+			return out;
+		}
+		
 		for (HashPair<K, V> entry : results) {
 			resultsArray.add(entry);
 		}
@@ -340,8 +344,8 @@ public class MyHashTable<K, V> implements Iterable<HashPair<K, V>> {
 		// ADD YOUR CODE BELOW HERE
 
 		HashPair<K, V> current;
-		//ArrayList<HashPair<K, V>> myList = new ArrayList<HashPair<K, V>>();
-		LinkedList<HashPair<K,V>> myList2 = new LinkedList<HashPair<K,V>>();
+		// ArrayList<HashPair<K, V>> myList = new ArrayList<HashPair<K, V>>();
+		LinkedList<HashPair<K, V>> myList2 = new LinkedList<HashPair<K, V>>();
 		// ADD YOUR CODE ABOVE HERE
 
 		/**
@@ -376,7 +380,7 @@ public class MyHashTable<K, V> implements Iterable<HashPair<K, V>> {
 		 */
 		public HashPair<K, V> next() {
 			// ADD YOUR CODE BELOW HERE
-			if(!hasNext()) {
+			if (!hasNext()) {
 				throw new NoSuchElementException();
 			}
 			current = myList2.removeFirst();

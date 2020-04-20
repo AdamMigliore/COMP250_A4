@@ -21,6 +21,10 @@ public class Twitter {
 		if (stopWords.size() == 0) {
 			stopWordBuckets = 1;
 		}
+		
+		if (tweets.size() == 0) {
+			numbuckets = 1;
+		}
 
 		twitterTable = new MyHashTable<String, ArrayList<Tweet>>(numbuckets);
 		authorTable = new MyHashTable<String, ArrayList<Tweet>>(numbuckets);
