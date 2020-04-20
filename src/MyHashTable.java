@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 
 public class MyHashTable<K, V> implements Iterable<HashPair<K, V>> {
 	// num of entries to the table
@@ -15,7 +16,7 @@ public class MyHashTable<K, V> implements Iterable<HashPair<K, V>> {
 	// constructor
 	public MyHashTable(int initialCapacity) {
 		// ADD YOUR CODE BELOW THIS
-		
+
 		// The capacity is the number of buckets in the hash table, and the initial
 		// capacity is simply the capacity at the
 		// time the hash table is created
@@ -27,7 +28,7 @@ public class MyHashTable<K, V> implements Iterable<HashPair<K, V>> {
 		for (int i = 0; i < initialCapacity; i++) {
 			buckets.add(new LinkedList<HashPair<K, V>>());
 		}
-		
+
 		// ADD YOUR CODE ABOVE THIS
 	}
 
@@ -64,10 +65,9 @@ public class MyHashTable<K, V> implements Iterable<HashPair<K, V>> {
 	 */
 	public V put(K key, V value) {
 		// ADD YOUR CODE BELOW HERE
-		if (value == null || key==null) {
+		if (value == null || key == null) {
 			return null;
 		}
-		
 
 		// Get the corresponding buckets
 		int hashValue = hashFunction(key);
@@ -107,6 +107,11 @@ public class MyHashTable<K, V> implements Iterable<HashPair<K, V>> {
 
 	public V get(K key) {
 		// ADD YOUR CODE BELOW HERE
+
+		if (key == null) {
+			return null;
+		}
+
 		int hashValue = hashFunction(key);
 
 		LinkedList<HashPair<K, V>> bucket = buckets.get(hashValue);
@@ -128,6 +133,9 @@ public class MyHashTable<K, V> implements Iterable<HashPair<K, V>> {
 	 */
 	public V remove(K key) {
 		// ADD YOUR CODE BELOW HERE
+		if (key == null) {
+			return null;
+		}
 
 		int hashValue = hashFunction(key);
 		LinkedList<HashPair<K, V>> bucket = buckets.get(hashValue);
@@ -200,15 +208,16 @@ public class MyHashTable<K, V> implements Iterable<HashPair<K, V>> {
 	 */
 	public ArrayList<V> values() {
 		// ADD CODE BELOW HERE
-
 		ArrayList<V> myList = new ArrayList<V>();
 
 		for (int i = 0; i < buckets.size(); i++) {
+			
 			for (int j = 0; j < buckets.get(i).size(); j++) {
-				if (!myList.contains(buckets.get(i).get(j).getValue())) {
+				//if (!myList.contains(buckets.get(i).get(j).getValue())) {
 					myList.add(buckets.get(i).get(j).getValue());
-				}
+				//}
 			}
+			
 		}
 
 		return myList;
@@ -254,8 +263,76 @@ public class MyHashTable<K, V> implements Iterable<HashPair<K, V>> {
 	public static <K, V extends Comparable<V>> ArrayList<K> fastSort(MyHashTable<K, V> results) {
 
 		// ADD CODE BELOW HERE
-		return null;
+		ArrayList<HashPair<K, V>> resultsArray = new ArrayList<>();
+		ArrayList<K> out = new ArrayList<>();
+
+		for (HashPair<K, V> entry : results) {
+			resultsArray.add(entry);
+		}
+
+		ArrayList<HashPair<K, V>> sorted = mergeSort(resultsArray);
+
+		for (HashPair<K, V> entry : sorted) {
+			K toAdd = entry.getKey();
+			out.add(toAdd);
+		}
+
+		return out;
 		// ADD CODE ABOVE HERE
+	}
+
+	private static <K, V extends Comparable<V>> ArrayList<HashPair<K, V>> mergeSort(
+			ArrayList<HashPair<K, V>> resultsArray) {
+		// TODO Auto-generated method stub
+
+		if (resultsArray.size() == 1) {
+			return resultsArray;
+		} else {
+			int mid = (resultsArray.size() - 1) / 2;
+			ArrayList<HashPair<K, V>> lower = partition(0, mid, resultsArray);
+			ArrayList<HashPair<K, V>> upper = partition(mid + 1, resultsArray.size() - 1, resultsArray);
+			lower = mergeSort(lower);
+			upper = mergeSort(upper);
+			return merge(lower, upper);
+		}
+	}
+
+	private static <K, V extends Comparable<V>> ArrayList<HashPair<K, V>> merge(ArrayList<HashPair<K, V>> lower,
+			ArrayList<HashPair<K, V>> upper) {
+
+		// 1- make a new list
+		ArrayList<HashPair<K, V>> outList = new ArrayList<>();
+		// 2- while look until a list if empty
+		while (!lower.isEmpty() && !upper.isEmpty()) {
+
+			if (lower.get(0).getValue().compareTo(upper.get(0).getValue()) >= 0) {
+				outList.add(lower.remove(0));
+			} else {
+				outList.add(upper.remove(0));
+			}
+
+		}
+
+		while (!lower.isEmpty()) {
+			outList.add(lower.remove(0));
+		}
+
+		while (!upper.isEmpty()) {
+			outList.add(upper.remove(0));
+		}
+
+		return outList;
+	}
+
+	private static <K, V extends Comparable<V>> ArrayList<HashPair<K, V>> partition(int start, int end,
+			ArrayList<HashPair<K, V>> resultsArray) {
+		ArrayList<HashPair<K, V>> out = new ArrayList<>();
+
+		for (int i = start; i <= end; i++) {
+			out.add(resultsArray.get(i));
+		}
+
+		return out;
 	}
 
 	@Override
@@ -267,8 +344,8 @@ public class MyHashTable<K, V> implements Iterable<HashPair<K, V>> {
 		// ADD YOUR CODE BELOW HERE
 
 		HashPair<K, V> current;
-		ArrayList<HashPair<K, V>> myList = new ArrayList<HashPair<K, V>>();
-
+		//ArrayList<HashPair<K, V>> myList = new ArrayList<HashPair<K, V>>();
+		LinkedList<HashPair<K,V>> myList2 = new LinkedList<HashPair<K,V>>();
 		// ADD YOUR CODE ABOVE HERE
 
 		/**
@@ -279,7 +356,7 @@ public class MyHashTable<K, V> implements Iterable<HashPair<K, V>> {
 
 			for (int i = 0; i < buckets.size(); i++) {
 				for (int j = 0; j < buckets.get(i).size(); j++) {
-					myList.add(buckets.get(i).get(j));
+					myList2.add(buckets.get(i).get(j));
 				}
 			}
 
@@ -292,8 +369,7 @@ public class MyHashTable<K, V> implements Iterable<HashPair<K, V>> {
 		 */
 		public boolean hasNext() {
 			// ADD YOUR CODE BELOW HERE
-
-			return !myList.isEmpty();
+			return !myList2.isEmpty();
 
 			// ADD YOUR CODE ABOVE HERE
 		}
@@ -304,7 +380,10 @@ public class MyHashTable<K, V> implements Iterable<HashPair<K, V>> {
 		 */
 		public HashPair<K, V> next() {
 			// ADD YOUR CODE BELOW HERE
-			current = myList.remove(0);
+			if(!hasNext()) {
+				throw new NoSuchElementException();
+			}
+			current = myList2.removeFirst();
 			return current;
 			// ADD YOUR CODE ABOVE HERE
 		}

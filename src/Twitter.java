@@ -46,27 +46,28 @@ public class Twitter {
 	 */
 	public void addTweet(Tweet t) {
 		// ADD CODE BELOW HERE
+		if (t != null) {
 
-		String key = t.getDateAndTime().substring(0, 10);
-		ArrayList<Tweet> list = twitterTable.get(key);
+			String key = t.getDateAndTime().substring(0, 10);
+			ArrayList<Tweet> list = twitterTable.get(key);
 
-		if (list == null) {
-			list = new ArrayList<Tweet>();
+			if (list == null) {
+				list = new ArrayList<Tweet>();
+			}
+			list.add(t);
+			twitterTable.put(key, list);
+
+			String author = t.getAuthor();
+			ArrayList<Tweet> authorList = authorTable.get(author);
+
+			if (authorList == null) {
+				authorList = new ArrayList<Tweet>();
+			}
+			authorList.add(t);
+			authorTable.put(author, authorList);
+
+			normalTable.put(t.getDateAndTime(), t);
 		}
-		list.add(t);
-		twitterTable.put(key, list);
-
-		String author = t.getAuthor();
-		ArrayList<Tweet> authorList = authorTable.get(author);
-
-		if (authorList == null) {
-			authorList = new ArrayList<Tweet>();
-		}
-		authorList.add(t);
-		authorTable.put(author, authorList);
-
-		normalTable.put(t.getDateAndTime(), t);
-
 		// ADD CODE ABOVE HERE
 	}
 
@@ -100,7 +101,9 @@ public class Twitter {
 	 */
 	public ArrayList<Tweet> tweetsByDate(String date) {
 		// ADD CODE BELOW HERE
-
+		if (date == null) {
+			return null;
+		}
 		return twitterTable.get(date);
 
 		// ADD CODE ABOVE HERE
@@ -123,7 +126,7 @@ public class Twitter {
 			ArrayList<String> words = getWords(tweet.getMessage());
 			// 3- for each word check if its a stop word
 			ArrayList<String> alreadyChecked = new ArrayList<String>();
-			
+
 			for (String word : words) {
 				// if null - go on and increment
 				word = word.toLowerCase();
@@ -139,7 +142,8 @@ public class Twitter {
 				}
 			}
 		}
-		return MyHashTable.slowSort(trendingTable);
+		
+		return MyHashTable.fastSort(trendingTable);
 		// ADD CODE ABOVE HERE
 	}
 
